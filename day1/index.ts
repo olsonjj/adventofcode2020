@@ -1,4 +1,7 @@
-import { input } from './input';
+import { rawInput } from './input';
+import { parseInputAsNumbers } from '../utils/input-utils';
+
+const input = parseInputAsNumbers(rawInput);
 
 const sum2 = (a: number, b: number) => a + b;
 const sum3 = (a: number, b: number, c: number) => a + b + c;
