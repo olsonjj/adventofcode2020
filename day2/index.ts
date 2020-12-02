@@ -1,10 +1,14 @@
-import { input } from './input';
+import { rawInput } from './input';
 
 interface SetupFormat {
   range: string;
   letter: string;
   chars: string;
 }
+
+const parseInput = (input: string): string[] => {
+  return input.split('\n');
+};
 
 const format = (line: string): SetupFormat => {
   // 3-7 r: mxvlzcjrsqst
@@ -32,6 +36,8 @@ const isPasswordValid = (setup: SetupFormat): boolean => {
   if (char1 !== setup.letter && char2 === setup.letter) return true;
   return false;
 };
+
+const input = parseInput(rawInput);
 
 const part1Result = input.reduce(
   (prev, line) => {
