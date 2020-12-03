@@ -1,69 +1,60 @@
 import { forest } from './input';
 import { parseInput } from '../utils/input-utils';
 
-const input = parseInput(forest);
-const part1Slope = { right: 3, down: 1 };
+const slope = parseInput(forest);
+const part1Toboggan = { right: 3, down: 1 };
 let currentXPos = 0;
 
-const part1Results = input.reduce(
-  (prev, line, index) => {
-    const xPos = currentXPos % line.length;
-    if (line[xPos] === '#') {
-      prev.trees++;
-    }
-    currentXPos += part1Slope.right;
-    return prev;
-  },
-  { trees: 0 }
-);
+const part1Results = slope.reduce((count, line, index) => {
+  const xPos = currentXPos % line.length;
+  if (line[xPos] === '#') {
+    count++;
+  }
+  currentXPos += part1Toboggan.right;
+  return count;
+}, 0);
 
 console.log('Part1: ', part1Results);
 
-interface Slope {
+interface Toboggan {
   right: number;
   down: number;
-  currXPos: number;
+  xPos: number;
   trees: number;
 }
 
-const part2SlopeA: Slope = { right: 1, down: 1, currXPos: 0, trees: 0 };
-const part2SlopeB: Slope = { right: 3, down: 1, currXPos: 0, trees: 0 };
-const part2SlopeC: Slope = { right: 5, down: 1, currXPos: 0, trees: 0 };
-const part2SlopeD: Slope = { right: 7, down: 1, currXPos: 0, trees: 0 };
-const part2SlopeE: Slope = { right: 1, down: 2, currXPos: 0, trees: 0 };
+const tobogganA: Toboggan = { right: 1, down: 1, xPos: 0, trees: 0 };
+const tobogganB: Toboggan = { right: 3, down: 1, xPos: 0, trees: 0 };
+const tobogganC: Toboggan = { right: 5, down: 1, xPos: 0, trees: 0 };
+const tobogganD: Toboggan = { right: 7, down: 1, xPos: 0, trees: 0 };
+const tobogganE: Toboggan = { right: 1, down: 2, xPos: 0, trees: 0 };
 
-const part2Slopes = [
-  part2SlopeA,
-  part2SlopeB,
-  part2SlopeC,
-  part2SlopeD,
-  part2SlopeE,
-];
+const allToboggans = [tobogganA, tobogganB, tobogganC, tobogganD, tobogganE];
 
-const isLineValid = (slope: Slope, idx): boolean => {
-  return idx % slope.down === 0;
+const isLineValid = (toboggan: Toboggan, idx): boolean => {
+  return idx % toboggan.down === 0;
 };
 
-const updateTreeCount = (slope: Slope, line) => {
-  const xPos = slope.currXPos % line.length;
+const updateTreeCount = (toboggan: Toboggan, line) => {
+  const xPos = toboggan.xPos % line.length;
   if (line[xPos] === '#') {
-    slope.trees++;
+    toboggan.trees++;
   }
-  slope.currXPos += slope.right;
-  return slope;
+  toboggan.xPos += toboggan.right;
+  return toboggan;
 };
 
-input.forEach((line, index) => {
-  part2Slopes.forEach((slope) => {
-    if (isLineValid(slope, index)) {
-      slope = updateTreeCount(slope, line);
+slope.forEach((line, index) => {
+  allToboggans.forEach((toboggan) => {
+    if (isLineValid(toboggan, index)) {
+      updateTreeCount(toboggan, line);
     }
   });
 });
 
 let results = 1;
-part2Slopes.forEach((slope) => {
-  results *= slope.trees;
+allToboggans.forEach((toboggan) => {
+  results *= toboggan.trees;
 });
 
 console.log('part 2', results);
