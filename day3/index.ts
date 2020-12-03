@@ -44,14 +44,19 @@ const isLineValid = (slope: Slope, idx): boolean => {
   return idx % slope.down === 0;
 };
 
+const updateTreeCount = (slope: Slope, line) => {
+  const xPos = slope.currXPos % line.length;
+  if (line[xPos] === '#') {
+    slope.trees++;
+  }
+  slope.currXPos += slope.right;
+  return slope;
+};
+
 input.forEach((line, index) => {
   part2Slopes.forEach((slope) => {
     if (isLineValid(slope, index)) {
-      const xPos = slope.currXPos % line.length;
-      if (line[xPos] === '#') {
-        slope.trees++;
-      }
-      slope.currXPos += slope.right;
+      slope = updateTreeCount(slope, line);
     }
   });
 });
