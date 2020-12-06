@@ -24,7 +24,7 @@ const partACount = groupList.groups.reduce((count: number, group: string[]) => {
 
 const partBCount = groupList.groups.reduce((count, group: string[]) => {
   if (group.length === 1) {
-    return count + new Set(group.join('')).size;
+    return count + group.join('').length;
   }
   const intersection = group.reduce((acc, curr) => {
     const intersection = acc
